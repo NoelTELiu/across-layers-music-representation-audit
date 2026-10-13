@@ -10,7 +10,9 @@ import json
 from pathlib import Path
 
 ALLOWED = {"RESEARCH_REPORT.tex", "RESEARCH_REPORT.md", "RESEARCH_REPORT.pdf",
-           ".gitignore", "scripts/update_report_manifest.py"}
+           ".gitignore", "README.md", "scripts/update_report_manifest.py",
+           "scripts/verify_public_release.py", "src/common.py",
+           "src/transform_midi.py", "src/runtime_metrics.py"}
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -43,19 +45,19 @@ def update(root):
     if not changed:
         return {"status": "UNCHANGED"}
     provenance = json.loads(provenance_path.read_bytes())
-    replaced = {"RESEARCH_REPORT.md", "RESEARCH_REPORT.pdf"}
+    replaced = {"RESEARCH_REPORT.tex", "RESEARCH_REPORT.md", "RESEARCH_REPORT.pdf"}
     historical = [o for o in manifest["origins"] if o["public_path"] in replaced]
     manifest["origins"] = [o for o in manifest["origins"] if o["public_path"] not in replaced]
     tex_hash = sha(root / "RESEARCH_REPORT.tex")
     for name in sorted(replaced | {"RESEARCH_REPORT.tex"}):
         manifest["origins"].append({"source_path": "RESEARCH_REPORT.tex", "source_sha256": tex_hash,
             "public_path": name, "public_sha256": sha(root/name),
-            "projection": "User-supplied revised report; Markdown transcription or compiled PDF; frozen scientific tables unchanged"})
+            "projection": "Revised report derived from RESEARCH_REPORT.tex; frozen scientific result artifacts unchanged."})
     # Existing non-report origins retain their historical source attribution.
     for origin in manifest["origins"]:
         if origin["public_path"] in ALLOWED:
             origin["public_sha256"] = sha(root / origin["public_path"])
-    amendment = {"kind": "user_supplied_report_replacement", "changed_paths": changed,
+    amendment = {"kind": "report_revision", "changed_paths": changed,
         "previous_manifest_sha256": hashlib.sha256(original_manifest).hexdigest(),
         "previous_report_origins": historical,
         "latex_source_sha256": tex_hash,

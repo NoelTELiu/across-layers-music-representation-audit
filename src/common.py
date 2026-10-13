@@ -37,9 +37,14 @@ def load_config(path=ROOT / 'configs/smoke.json'):
     soundfont_override = os.environ.get("TIMGM6MB_SF2")
     if soundfont_override:
         c["soundfont"] = soundfont_override
-    assert c['max_pieces'] == 1, 'This engineering fixture configuration supports exactly one piece.'
-    assert c['model_id'] == 'm-a-p/MERT-v1-95M'
-    assert c['dataset'] == 'MAESTRO' and c['dataset_version'] == '3.0.0'
-    assert c['transpose_semitones'] == 2 and c['segment_duration_s'] == 20
-    assert c['sample_rate'] == 24000
+    if not (c['max_pieces'] == 1):
+        raise AssertionError('This engineering fixture configuration supports exactly one piece.')
+    if not (c['model_id'] == 'm-a-p/MERT-v1-95M'):
+        raise AssertionError()
+    if not (c['dataset'] == 'MAESTRO' and c['dataset_version'] == '3.0.0'):
+        raise AssertionError()
+    if not (c['transpose_semitones'] == 2 and c['segment_duration_s'] == 20):
+        raise AssertionError()
+    if not (c['sample_rate'] == 24000):
+        raise AssertionError()
     return c

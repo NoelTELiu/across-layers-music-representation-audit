@@ -8,6 +8,44 @@
     "estimate": 0.07988889023048976,
     "sign_flip_p": 0.05959404059594041
   },
+  "presentation_amendments": [
+    {
+      "changed_paths": [
+        ".gitignore",
+        "RESEARCH_REPORT.md",
+        "RESEARCH_REPORT.pdf",
+        "RESEARCH_REPORT.tex",
+        "scripts/update_report_manifest.py",
+        "scripts/verify_public_release.py",
+        "src/common.py",
+        "src/runtime_metrics.py",
+        "src/transform_midi.py"
+      ],
+      "frozen_nonreport_files_verified": true,
+      "kind": "report_revision",
+      "latex_source_sha256": "a844d8c84ac114a313f6540920dd3faa2c7554c16db697b72b48dededca70b47",
+      "previous_manifest_sha256": "a64924b4a10fca585334f1d046d33495127a7bbfc223a1b60c66258b63e53ace",
+      "previous_report_origins": [
+        {
+          "bytes_changed_by_canonicalization": true,
+          "public_path": "RESEARCH_REPORT.md",
+          "public_sha256": "999ed1158b03b61aab7c4bf6771aa7a5e629272a4c1b284ac18aec9298c95b10",
+          "source_path": "scripts/public_release_templates/RESEARCH_REPORT.md",
+          "source_sha256": "63cddd23524100180ff4c0ea92ecf07b1674ad8b25c0d2880b0f1b3d474e2ba8",
+          "text_canonicalization": true
+        },
+        {
+          "bytes_changed_by_canonicalization": false,
+          "public_path": "RESEARCH_REPORT.pdf",
+          "public_sha256": "df37f455253f7336d564852c1e0b0f870d7e4b3842dfb748d2a72e4d291eb71a",
+          "source_path": "scripts/public_release_templates/RESEARCH_REPORT.pdf",
+          "source_sha256": "df37f455253f7336d564852c1e0b0f870d7e4b3842dfb748d2a72e4d291eb71a",
+          "text_canonicalization": false
+        }
+      ],
+      "scientific_results_recomputed": false
+    }
+  ],
   "public_presentation": "README and documentation curated for external readers; report and figures unchanged; no new scientific computation.",
   "robustness_classification": "POST-FREEZE / POST-HOC / EXPLORATORY",
   "source_completed_commit": "78751de88396210f777fdcedd5359b5d02552a52",
@@ -24,14 +62,6 @@
     },
     {
       "bytes_changed_by_canonicalization": true,
-      "public_path": "RESEARCH_REPORT.md",
-      "public_sha256": "999ed1158b03b61aab7c4bf6771aa7a5e629272a4c1b284ac18aec9298c95b10",
-      "source_path": "scripts/public_release_templates/RESEARCH_REPORT.md",
-      "source_sha256": "63cddd23524100180ff4c0ea92ecf07b1674ad8b25c0d2880b0f1b3d474e2ba8",
-      "text_canonicalization": true
-    },
-    {
-      "bytes_changed_by_canonicalization": true,
       "public_path": "requirements.txt",
       "public_sha256": "e927f2ada0dc555fc1314b6ddfde0c9ef493c07687aebab769dcbf36391d477e",
       "source_path": "scripts/public_release_templates/requirements.txt",
@@ -42,7 +72,7 @@
       "bytes_changed_by_canonicalization": true,
       "public_adaptation": "Presentation or standalone repository verification adaptation; frozen results unchanged",
       "public_path": ".gitignore",
-      "public_sha256": "fbfb38535928a0e533ae7dcf18652b512b2394777e2f422d175e963d91ca07ec",
+      "public_sha256": "9f4aeeb7d40e23cd2ef2cbe90dd85e1d2ee0d815609e657550833fde29ea6b1d",
       "source_path": "scripts/public_release_templates/.gitignore",
       "source_sha256": "da41a447b397aa7097d879072aa85ce9b986e5de7e759bf08ff189f73c53ac8a",
       "text_canonicalization": true,
@@ -111,7 +141,7 @@
     {
       "bytes_changed_by_canonicalization": true,
       "public_path": "src/common.py",
-      "public_sha256": "d24576bb7c34dbef7e46087fb9fd44eca62bd2029b262a1e28e73fb4a46535a4",
+      "public_sha256": "cb18b395ee019f5a2a40d9cad474cef591de230bf4f1933958767a0f5f7cc023",
       "source_path": "scripts/public_release_templates/src/common.py",
       "source_sha256": "c3223926c58f02c2bba4207981163206de383f1589b4685e88e816fcce99366c",
       "text_canonicalization": true
@@ -151,7 +181,7 @@
     {
       "bytes_changed_by_canonicalization": false,
       "public_path": "src/runtime_metrics.py",
-      "public_sha256": "2d176215e6022cb2d197ceecfc0df8b818f216d9a016ebceb6a4c2a9cc2566a5",
+      "public_sha256": "348a964b709d31c330d6b1d06e2b7cb01a576b15190d422d5d91d6010c742401",
       "source_path": "scripts/public_release_templates/src/runtime_metrics.py",
       "source_sha256": "2d176215e6022cb2d197ceecfc0df8b818f216d9a016ebceb6a4c2a9cc2566a5",
       "text_canonicalization": true
@@ -167,18 +197,10 @@
     {
       "bytes_changed_by_canonicalization": true,
       "public_path": "src/transform_midi.py",
-      "public_sha256": "68a440085545c12d618afb0926285014d6c031fa269a70ca88a1644a0b3819b0",
+      "public_sha256": "cf0e1c531d51b9321e35c480e2915f63a6579dcd3afcd9815af5ba9dbf1c3c7c",
       "source_path": "scripts/public_release_templates/src/transform_midi.py",
       "source_sha256": "175246466f54390d17f7a70b3144687741f137fc5ff260d38b2f6b989ba58b87",
       "text_canonicalization": true
-    },
-    {
-      "bytes_changed_by_canonicalization": false,
-      "public_path": "RESEARCH_REPORT.pdf",
-      "public_sha256": "df37f455253f7336d564852c1e0b0f870d7e4b3842dfb748d2a72e4d291eb71a",
-      "source_path": "scripts/public_release_templates/RESEARCH_REPORT.pdf",
-      "source_sha256": "df37f455253f7336d564852c1e0b0f870d7e4b3842dfb748d2a72e4d291eb71a",
-      "text_canonicalization": false
     },
     {
       "bytes_changed_by_canonicalization": true,
@@ -352,7 +374,7 @@
       "bytes_changed_by_canonicalization": false,
       "public_adaptation": "Presentation or standalone repository verification adaptation; frozen results unchanged",
       "public_path": "scripts/verify_public_release.py",
-      "public_sha256": "8d7957b6e8ff6739827a30ffeb3db0494d03336df1c2cc224455d70abbc427a2",
+      "public_sha256": "886ea74a446a8887ffd13eadf7805695ecbf9eab0fa61775e519c6792d92276f",
       "source_path": "scripts/verify_public_release.py",
       "source_sha256": "421d1a82da9ca733e8be34ac8b5839fea9a02349a80a217be58650ed6982bf86",
       "text_canonicalization": true,
@@ -1625,6 +1647,27 @@
       "public_sha256": "e76cb312bea27097a9d63b82c88e067084b8f1bd00eaaa57f5e5fc4c766d40d5",
       "source_path": "results/checkpoint7a/summary.json",
       "source_sha256": "d5d5f924666197437386c9161461cdae9a294f18ccd0bebfa4bd66ae54e406dd"
+    },
+    {
+      "projection": "Revised report derived from RESEARCH_REPORT.tex; frozen scientific result artifacts unchanged.",
+      "public_path": "RESEARCH_REPORT.md",
+      "public_sha256": "10b862963af2c34a9e6b1542148b2b201a3b35c80f42d1a59bbd41c3d26fd9a0",
+      "source_path": "RESEARCH_REPORT.tex",
+      "source_sha256": "a844d8c84ac114a313f6540920dd3faa2c7554c16db697b72b48dededca70b47"
+    },
+    {
+      "projection": "Revised report derived from RESEARCH_REPORT.tex; frozen scientific result artifacts unchanged.",
+      "public_path": "RESEARCH_REPORT.pdf",
+      "public_sha256": "4d2831480a273d973d8c156a42d33f5d7e813cb336ad1c647a7ad1ca1be3bfda",
+      "source_path": "RESEARCH_REPORT.tex",
+      "source_sha256": "a844d8c84ac114a313f6540920dd3faa2c7554c16db697b72b48dededca70b47"
+    },
+    {
+      "projection": "Revised report derived from RESEARCH_REPORT.tex; frozen scientific result artifacts unchanged.",
+      "public_path": "RESEARCH_REPORT.tex",
+      "public_sha256": "a844d8c84ac114a313f6540920dd3faa2c7554c16db697b72b48dededca70b47",
+      "source_path": "RESEARCH_REPORT.tex",
+      "source_sha256": "a844d8c84ac114a313f6540920dd3faa2c7554c16db697b72b48dededca70b47"
     }
   ],
   "source_release_commit": "ea9390dc1ceb3f1d1f0c748a850012caa919c5aa",

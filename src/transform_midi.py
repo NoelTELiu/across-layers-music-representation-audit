@@ -18,16 +18,21 @@ def transpose(source, destination, semitones=2):
 
 def validate_transposition(original, transformed, semitones=2):
     a, b = mido.MidiFile(original), mido.MidiFile(transformed)
-    assert a.ticks_per_beat == b.ticks_per_beat and len(a.tracks) == len(b.tracks)
+    if not (a.ticks_per_beat == b.ticks_per_beat and len(a.tracks) == len(b.tracks)):
+        raise AssertionError()
     count = 0
     for ta, tb in zip(a.tracks, b.tracks):
-        assert len(ta) == len(tb)
+        if not (len(ta) == len(tb)):
+            raise AssertionError()
         for ma, mb in zip(ta, tb):
             da, db = ma.dict(), mb.dict()
             if 'note' in da:
-                assert db['note'] == da['note'] + semitones
+                if not (db['note'] == da['note'] + semitones):
+                    raise AssertionError()
                 db['note'] -= semitones
                 count += ma.type == 'note_on' and ma.velocity > 0
-            assert da == db, f'Non-pitch event changed: {ma} -> {mb}'
-    assert count > 0
+            if not (da == db):
+                raise AssertionError(f'Non-pitch event changed: {ma} -> {mb}')
+    if not (count > 0):
+        raise AssertionError()
     return {'exact_transposition': True, 'positive_note_on_events': count}

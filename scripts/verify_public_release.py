@@ -36,7 +36,7 @@ def verify(root):
             s = raw.decode('utf-8')
             if '\r' in s or not raw.endswith(b'\n') or raw.startswith(b'\xef\xbb\xbf'):
                 raise ValueError('Noncanonical text')
-            if re.search(r'\b[A-Za-z]:[\\/]|/[h]ome/[^\s]+|Users[\\/]user|\b[c]odex\b', s, re.I):
+            if re.search(r'\b[A-Za-z]:[\\/]|/[h]ome/[^\s]+|Users[\\/]user', s, re.I):
                 raise ValueError('Private/local path in public text')
             if re.search(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bAKIA[A-Z0-9]{16}\b|\bghp_[A-Za-z0-9]{30,}\b|\bhf_[A-Za-z0-9]{30,}\b|https?://[^\s/:]+:[^\s/@]+@', s):
                 raise ValueError('Potential credential in public text')

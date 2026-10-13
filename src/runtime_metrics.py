@@ -1,4 +1,4 @@
-"""Approximate cross-platform process memory and CPU timing, without extra dependencies."""
+"""Approximate Windows/Linux process memory and CPU timing, without extra dependencies."""
 from contextlib import contextmanager
 from pathlib import Path
 import ctypes
