@@ -10,8 +10,6 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_frozen_state12_raw_reference_sensitivities_and_effects():
     data = ROOT / 'results'
-    if not (data / 'state12_vectors.csv').exists():
-        data = ROOT / 'dist/music-representation-audit-public-build/results'
     with (data / 'state12_vectors.csv').open(encoding='utf-8', newline='') as f:
         vectors = list(csv.DictReader(f))
     with (data / 'per_piece_primary.csv').open(encoding='utf-8', newline='') as f:

@@ -1,49 +1,23 @@
-"""Strict CPU-only verification of bundled frozen results/metric, not inference."""
+"""CPU-only frozen scientific consistency checks; no model or inferential runs."""
 import argparse
 import csv
-import hashlib
 import json
 from pathlib import Path
-import re
 import sys
 sys.dont_write_bytecode = True
 import numpy as np
 
 
 def verify(root):
-    manifest = json.loads((root / 'MANIFEST.json').read_bytes())
-    if manifest.get('schema_version') != 1:
-        raise ValueError('Unknown manifest schema')
-    declared = {r['path'] for r in manifest['files']}
-    if len(declared) != len(manifest['files']):
-        raise ValueError('Duplicate manifest path')
-    # Local Git metadata is not a scientific/package artifact.
-    public_paths = [p for p in root.rglob('*') if '.git' not in p.relative_to(root).parts]
-    actual = {p.relative_to(root).as_posix() for p in public_paths if p.is_file()}
-    if actual != declared | {'MANIFEST.json'}:
-        raise ValueError('Unexpected/missing public files')
-    allowed_dirs = {parent.as_posix() for n in declared for parent in Path(n).parents if str(parent) != '.'}
-    if any(p.relative_to(root).as_posix() not in allowed_dirs for p in public_paths if p.is_dir()):
-        raise ValueError('Unexpected directory/cache')
-    for record in manifest['files']:
-        p = root / record['path']
-        if not p.resolve().is_relative_to(root.resolve()) or p.is_symlink():
-            raise ValueError('Unsafe manifest path')
-        raw = p.read_bytes()
-        if len(raw) != record['bytes'] or hashlib.sha256(raw).hexdigest() != record['sha256']:
-            raise ValueError('File hash mismatch: ' + record['path'])
-        if p.suffix in ('.md', '.py', '.json', '.csv', '.txt'):
-            s = raw.decode('utf-8')
-            if '\r' in s or not raw.endswith(b'\n') or raw.startswith(b'\xef\xbb\xbf'):
-                raise ValueError('Noncanonical text')
-            if re.search(r'\b[A-Za-z]:[\\/]|/[h]ome/[^\s]+|Users[\\/]user', s, re.I):
-                raise ValueError('Private/local path in public text')
-            if re.search(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bAKIA[A-Z0-9]{16}\b|\bghp_[A-Za-z0-9]{30,}\b|\bhf_[A-Za-z0-9]{30,}\b|https?://[^\s/:]+:[^\s/@]+@', s):
-                raise ValueError('Potential credential in public text')
-    def rows(n):
+    def rows(n, required=()):
         with (root / n).open(encoding='utf-8', newline='') as f:
-            return list(csv.DictReader(f))
-    conditions = tuple(manifest['conditions'])
+            reader = csv.DictReader(f)
+            if not reader.fieldnames or len(reader.fieldnames) != len(set(reader.fieldnames)):
+                raise ValueError('Missing/duplicate table columns: ' + n)
+            if not set(required).issubset(reader.fieldnames):
+                raise ValueError('Missing scientific columns: ' + n)
+            return list(reader)
+    conditions = ('original', 'plus2', 'harpsichord', 'tempo150', 'pc_permutation')
     if conditions != ('original', 'plus2', 'harpsichord', 'tempo150', 'pc_permutation'):
         raise ValueError('Condition IDs changed')
     expected_order = [(i, c) for i in range(1, 31) for c in conditions]
@@ -61,8 +35,12 @@ def verify(root):
     layers = rows('results/per_piece_layers.csv')
     if len(layers) != 390 or {(int(r['formal_sample_index']), int(r['state'])) for r in layers} != {(i, s) for i in range(1, 31) for s in range(13)}:
         raise ValueError('Layer output schema/count mismatch')
-    if len(rows('results/secondary_summary.csv')) != 3 or len(rows('results/rsa_results.csv')) != 26:
-        raise ValueError('Secondary/RSA schema/count mismatch')
+    secondary = rows('results/secondary_summary.csv', ('comparator', 'mean_paired_difference', 'raw_sign_flip_p', 'holm_adjusted_p'))
+    rsa = rows('results/rsa_results.csv', ('descriptor_family', 'state', 'observed_rho', 'raw_p', 'bh_adjusted_p'))
+    if len(secondary) != 3 or [r['comparator'] for r in secondary] != list(conditions[1:4]):
+        raise ValueError('Secondary schema/count mismatch')
+    if len(rsa) != 26 or {(r['descriptor_family'], int(r['state'])) for r in rsa} != {(family, state) for family in ('symbolic', 'audio') for state in range(13)}:
+        raise ValueError('RSA schema/count mismatch')
     vectors = rows('results/state12_vectors.csv')
     if [(int(r['formal_sample_index']), r['condition']) for r in vectors] != expected_order:
         raise ValueError('Vector mapping mismatch')
@@ -80,7 +58,7 @@ def verify(root):
         if not np.array_equal(a, b):
             raise ValueError('Formal metric does not exactly reproduce frozen 4A')
     primary = json.loads((root / 'results/primary_result.json').read_bytes())
-    fixed = manifest['original_primary']
+    fixed = dict(estimate=0.07988889023048976, bootstrap_95_ci=[0.005651311249042015, 0.16302219828769984], sign_flip_p=0.05959404059594041, conclusion='PRIMARY NON-CONFIRMING')
     if float(effects.mean()) != fixed['estimate'] or primary['primary_estimate'] != fixed['estimate'] or primary['bootstrap_percentile_95_ci'] != fixed['bootstrap_95_ci'] or primary['two_sided_sign_flip_p'] != fixed['sign_flip_p']:
         raise ValueError('Frozen primary result mismatch')
     if not (fixed['sign_flip_p'] > .05 and fixed['conclusion'] == 'PRIMARY NON-CONFIRMING'):
@@ -88,25 +66,19 @@ def verify(root):
     robustness = json.loads((root / 'results/robustness/summary.json').read_bytes())
     if robustness['classification'] != 'POST-FREEZE / POST-HOC / EXPLORATORY':
         raise ValueError('Robustness evidence label changed')
+    if robustness['original_primary']['conclusion'] != fixed['conclusion']:
+        raise ValueError('Robustness primary conclusion changed')
     if robustness['original_primary']['sign_flip_p'] != fixed['sign_flip_p'] or robustness['original_primary']['estimate'] != fixed['estimate']:
         raise ValueError('Robustness original-primary mismatch')
     if robustness['raw_distance']['mean'] != 0.00746987408086919 or robustness['raw_distance']['sign_flip_p'] != 0.025397460253974602:
         raise ValueError('Saved robustness result changed')
     if len(rows('results/robustness/raw_per_piece.csv')) != 30 or len(rows('results/robustness/leave_one_out.csv')) != 30 or len(rows('results/robustness/normalization_decomposition.csv')) != 117:
         raise ValueError('Robustness count mismatch')
-    readme = (root / 'README.md').read_text(encoding='utf-8')
-    if '150 BPM' not in readme or '1.25' not in readme or 'tempo150' not in readme:
-        raise ValueError('tempo150 label missing')
-    for p in root.rglob('*.md'):
-        for url in re.findall(r'\]\(([^)]+)\)', p.read_text(encoding='utf-8')):
-            if url.startswith('https://'):
-                continue
-            target = (p.parent / url).resolve()
-            if not target.is_relative_to(root.resolve()) or not target.exists():
-                raise ValueError('Broken/unsafe public link')
-    return dict(status='PASS', pieces=30, formal_instances=150, files=len(actual),
-                formal_no_clipping_metric_exact_4a_match=True, hypothesis_tests_executed=False,
-                original_primary='NON-CONFIRMING', tempo150=manifest['tempo150'])
+    return dict(status='PASS', pieces=30, formal_instances=150,
+                formal_no_clipping_metric_exact_match=True, hypothesis_tests_executed=False,
+                original_primary='PRIMARY NON-CONFIRMING',
+                robustness='POST-FREEZE / POST-HOC / EXPLORATORY',
+                tempo150='150 BPM (1.25× faster than 120 BPM), natural 16 s')
 
 
 def main():

@@ -56,13 +56,16 @@ This completed research project audits a frozen MERT model through controlled in
 CPU-only verification uses Python with NumPy (recorded version 1.26.4):
 
 ```sh
-python scripts/verify_public_release.py --root .
+python scripts/verify_results.py
+python -m pytest -q
 ```
 
-This checks hashes, links, mappings, saved results and exact formal state-12 distances from the small bundled vector export. It runs no model inference or hypothesis tests. Large source/model caches are not included; this is not a promise of one-command full MERT re-inference. See [reproduction instructions](docs/REPRODUCIBILITY.md).
+The verifier checks scientific schemas, piece mappings, saved results and exact formal state-12 distances from the small bundled vector export. Pytest validates calculations. Documentation and report edits do not require hash synchronization. It runs no model inference or hypothesis tests. Large source/model caches are not included; this is not a promise of one-command full MERT re-inference. See [reproduction instructions](docs/REPRODUCIBILITY.md).
 
 Read first: [research report](RESEARCH_REPORT.pdf), [methods and evidence boundaries](docs/METHODS.md), [robustness](docs/ROBUSTNESS.md), and [dataset/model attribution](docs/ATTRIBUTION.md). Inspect the [formal sample](results/sample_manifest.csv), [dataset manifest](results/dataset_manifest.csv), and [frozen result provenance](results/provenance.json).
 
 The formal no-clipping metric is [src/scientific_metrics.py](src/scientific_metrics.py). The retained [src/distances.py](src/distances.py) is a historical engineering smoke helper, not the reported scientific metric.
 
 **Supplementary only:** [Figure 4](figures/figure4_posthoc_overlap.pdf) and [descriptor-overlap notes](docs/SUPPLEMENTARY.md). This post-hoc analysis was proposed after RSA inspection and supports no significance or causal claims.
+
+The PDF is the manually maintained research report; [RESEARCH_REPORT.tex](RESEARCH_REPORT.tex) is its source snapshot, with no local compilation requirement. This repository retains a curated reproducible subset of the study; Git records its version history.
