@@ -19,20 +19,20 @@ def transpose(source, destination, semitones=2):
 def validate_transposition(original, transformed, semitones=2):
     a, b = mido.MidiFile(original), mido.MidiFile(transformed)
     if not (a.ticks_per_beat == b.ticks_per_beat and len(a.tracks) == len(b.tracks)):
-        raise AssertionError()
+        raise RuntimeError('Transformed MIDI changed ticks_per_beat or track count')
     count = 0
     for ta, tb in zip(a.tracks, b.tracks):
         if not (len(ta) == len(tb)):
-            raise AssertionError()
+            raise RuntimeError('Transformed MIDI changed track event count')
         for ma, mb in zip(ta, tb):
             da, db = ma.dict(), mb.dict()
             if 'note' in da:
                 if not (db['note'] == da['note'] + semitones):
-                    raise AssertionError()
+                    raise RuntimeError('Transformed MIDI pitch does not match the requested transposition')
                 db['note'] -= semitones
                 count += ma.type == 'note_on' and ma.velocity > 0
             if not (da == db):
-                raise AssertionError(f'Non-pitch event changed: {ma} -> {mb}')
+                raise RuntimeError(f'Non-pitch event changed: {ma} -> {mb}')
     if not (count > 0):
-        raise AssertionError()
+        raise RuntimeError('MIDI contains no positive-velocity note-on events')
     return {'exact_transposition': True, 'positive_note_on_events': count}

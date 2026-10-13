@@ -18,8 +18,6 @@ def verify(root):
                 raise ValueError('Missing scientific columns: ' + n)
             return list(reader)
     conditions = ('original', 'plus2', 'harpsichord', 'tempo150', 'pc_permutation')
-    if conditions != ('original', 'plus2', 'harpsichord', 'tempo150', 'pc_permutation'):
-        raise ValueError('Condition IDs changed')
     expected_order = [(i, c) for i in range(1, 31) for c in conditions]
     dataset = rows('results/dataset_manifest.csv')
     if [(int(r['formal_sample_index']), r['condition']) for r in dataset] != expected_order:

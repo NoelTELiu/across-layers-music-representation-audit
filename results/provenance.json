@@ -16,7 +16,8 @@
     "model_id": "m-a-p/MERT-v1-95M",
     "revision": "12af15fef9d0ac838c3f475bfbbf26d2060dd4f5"
   },
-  "result_sources": {
+  "source_archive_note": "Paths refer to records in the preserved full research archive and are not part of this curated public repository.",
+  "source_archive_records": {
     "RSA": "results/checkpoint4d2",
     "descriptor_overlap": "results/checkpoint4e1",
     "layer_profiles": "results/checkpoint4c",

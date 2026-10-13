@@ -38,13 +38,13 @@ def load_config(path=ROOT / 'configs/smoke.json'):
     if soundfont_override:
         c["soundfont"] = soundfont_override
     if not (c['max_pieces'] == 1):
-        raise AssertionError('This engineering fixture configuration supports exactly one piece.')
+        raise ValueError('This engineering fixture configuration supports exactly one piece.')
     if not (c['model_id'] == 'm-a-p/MERT-v1-95M'):
-        raise AssertionError()
+        raise ValueError('Unexpected model ID')
     if not (c['dataset'] == 'MAESTRO' and c['dataset_version'] == '3.0.0'):
-        raise AssertionError()
+        raise ValueError('Expected MAESTRO dataset version 3.0.0')
     if not (c['transpose_semitones'] == 2 and c['segment_duration_s'] == 20):
-        raise AssertionError()
+        raise ValueError('Expected +2 semitones and a 20-second segment')
     if not (c['sample_rate'] == 24000):
-        raise AssertionError()
+        raise ValueError('Expected sample rate 24000 Hz')
     return c
