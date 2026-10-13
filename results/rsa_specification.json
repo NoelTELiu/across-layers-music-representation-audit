@@ -1,0 +1,303 @@
+{
+  "audio": {
+    "log": {
+      "function": "librosa.power_to_db",
+      "input": "power mel spectrogram",
+      "parameters": {
+        "amin": 1e-10,
+        "ref": 1.0,
+        "top_db": null
+      },
+      "per_piece_peak_reference": false,
+      "top_db_clipping": false
+    },
+    "mel": {
+      "function": "librosa.feature.melspectrogram",
+      "hann_convention": "library FFT-periodic convention associated with frozen librosa version",
+      "library": "librosa",
+      "parameters": {
+        "center": true,
+        "dtype": "float64",
+        "fmax": 12000.0,
+        "fmin": 0.0,
+        "hop_length": 512,
+        "htk": false,
+        "n_fft": 2048,
+        "n_mels": 64,
+        "norm": "slaney",
+        "pad_mode": "constant",
+        "power": 2.0,
+        "sr": 24000,
+        "win_length": 2048,
+        "window": "hann"
+      },
+      "version": "0.10.2.post1"
+    },
+    "numerics": {
+      "all_intermediate_final_values_finite": true,
+      "final_descriptor": "float64",
+      "log_values": "float64",
+      "mel": "float64",
+      "on_violation": "STOP; do not repair",
+      "positive_final_norm": true,
+      "waveform": "float64"
+    },
+    "preprocessing": {
+      "DC_removal": false,
+      "amplitude_normalization": false,
+      "filtering": false,
+      "loudness_normalization": false,
+      "padding_beyond_STFT_framing": false,
+      "pre_emphasis": false,
+      "trimming": false,
+      "waveform": "frozen rendered values as-is"
+    },
+    "source": {
+      "analysis_dtype": "float64",
+      "condition": "Frozen original WAV only",
+      "format": "IEEE floating-point WAV",
+      "mono": true,
+      "resampling": false,
+      "sample_rate": 24000,
+      "samples": 480000
+    },
+    "summary": {
+      "ddof": 0,
+      "dimension": 128,
+      "mean": "arithmetic temporal mean per mel bin",
+      "mel_bin_order": "ascending",
+      "order": "mean_mel_bin_0 ... mean_mel_bin_63, then std_mel_bin_0 ... std_mel_bin_63",
+      "std": "population temporal std"
+    }
+  },
+  "bh": {
+    "algorithm": "standard BH formula, reverse cumulative minimum",
+    "correction": "BH-FDR",
+    "decision": "BH-adjusted p <= 0.05 -> reject within 26-test RSA family",
+    "dtype": "float64",
+    "equal_raw_p_values": "equal adjusted p-values according to reverse cumulative-minimum definition",
+    "family_size": 26,
+    "formula": "min(1, min_{k >= r} (26 * p_(k) / k)) for sorted p_(r); map back to test IDs",
+    "other_family_or_correction": false,
+    "q": 0.05,
+    "test_order": [
+      "symbolic_state_00",
+      "symbolic_state_01",
+      "symbolic_state_02",
+      "symbolic_state_03",
+      "symbolic_state_04",
+      "symbolic_state_05",
+      "symbolic_state_06",
+      "symbolic_state_07",
+      "symbolic_state_08",
+      "symbolic_state_09",
+      "symbolic_state_10",
+      "symbolic_state_11",
+      "symbolic_state_12",
+      "audio_state_00",
+      "audio_state_01",
+      "audio_state_02",
+      "audio_state_03",
+      "audio_state_04",
+      "audio_state_05",
+      "audio_state_06",
+      "audio_state_07",
+      "audio_state_08",
+      "audio_state_09",
+      "audio_state_10",
+      "audio_state_11",
+      "audio_state_12"
+    ]
+  },
+  "permutation": {
+    "bit_generator": "PCG64",
+    "draw": "rng.permutation(30)",
+    "draw_order": "index 0 through 9999",
+    "draws": 10000,
+    "duplicates_allowed": true,
+    "equality_is_extreme": true,
+    "extreme": "abs(rho_permuted) >= abs(rho_observed)",
+    "identity": "neither explicitly excluded nor explicitly added; may occur naturally",
+    "numpy_version": "1.26.4",
+    "observed_labeling": "evaluated separately from 10,000 random draws",
+    "observed_statistic": "observed Spearman rho",
+    "p_formula": "(1 + extreme_count) / (10000 + 1)",
+    "permuted_side": "descriptor RDM; keep each MERT RDM fixed",
+    "relabeling": "same permutation to rows and columns; extract upper triangle by frozen 435-pair convention",
+    "rng": "numpy.random.default_rng(0)",
+    "sampling": "independent uniform random permutation per draw",
+    "sets": 1,
+    "shared_across": "all 13 states and both descriptor families",
+    "sidedness": "two-sided",
+    "statistic": "recompute same Spearman rho for every permutation",
+    "zero_p": false
+  },
+  "rdm": {
+    "construction": {
+      "average_asymmetric_values": false,
+      "diagonal": 0.0,
+      "lower_triangle": "mirror exactly to j,i",
+      "off_diagonal": "compute only i < j",
+      "repair": false,
+      "symmetry": "require exact symmetry"
+    },
+    "cosine": {
+      "clipping": false,
+      "dtype": "float64 for MERT, symbolic and audio vectors",
+      "epsilon": false,
+      "formula": "1 - dot(a,b) / (norm(a) * norm(b))",
+      "nonfinite_vector": "STOP",
+      "nonpositive_norm": "STOP",
+      "vector_repair": false
+    },
+    "vectorization": {
+      "diagonal_excluded": true,
+      "function": "np.triu_indices(30, k=1)",
+      "order": "NumPy returned deterministic row-major pair ordering unchanged",
+      "pair_count": 435
+    }
+  },
+  "spearman": {
+    "coefficient": {
+      "center": "subtract mean of each rank vector",
+      "dtype": "float64",
+      "formula": "dot(x_centered, y_centered) / (norm(x_centered) * norm(y_centered))",
+      "nonfinite_rho": "STOP",
+      "scipy_inferential_p_value": false,
+      "zero_rank_variance": "STOP"
+    },
+    "ranking": {
+      "function": "scipy.stats.rankdata",
+      "method": "average",
+      "scope": "each 435-element RDM vector independently",
+      "version": "1.13.1"
+    }
+  },
+  "symbolic": {
+    "boundary": {
+      "active_t0": "segment-clipped notes with onset 0; contribute normally",
+      "other_nonpositive_duration": "integrity failure -> STOP",
+      "source": "frozen cropped MIDI",
+      "sustain_only_t0": "reconstruction-only sustain carry with t=0 note_on and matching t=0 release has zero duration; ignore entirely for descriptor counting",
+      "synthetic_t20": "closes active notes and determines clipped duration; does not create onsets"
+    },
+    "duration": {
+      "definition": "physical/key duration",
+      "formula": "paired release time in seconds - onset time in seconds",
+      "interval": [
+        0,
+        20
+      ],
+      "timing": "MIDI tempo-map semantics already used by repository/Mido parser",
+      "units": "seconds"
+    },
+    "duration_histogram": {
+      "above_last": "accumulate into last bin",
+      "bin_count": 8,
+      "convention": "left-closed/right-open except final bin includes its upper edge",
+      "discard_positive_notes": false,
+      "edges": [
+        0.03125,
+        0.0625,
+        0.125,
+        0.25,
+        0.5,
+        1.0,
+        2.0,
+        4.0,
+        8.0
+      ],
+      "nonpositive": "forbidden -> STOP except ignored reconstruction-only t=0 event in boundary rule",
+      "positive_below_first": "accumulate into first bin",
+      "spacing": "log2",
+      "units": "seconds"
+    },
+    "events": {
+      "after_boundary_accounting": {
+        "unmatched_active_after_t20": "integrity failure -> STOP",
+        "unmatched_release": "integrity failure -> STOP"
+      },
+      "event_order": "deterministic merged-MIDI event order from existing Mido parser/timing semantics",
+      "key": [
+        "channel",
+        "MIDI pitch"
+      ],
+      "malformed_event_repair": false,
+      "pairing": "FIFO: release closes earliest unmatched active note of that key",
+      "release": "note_off OR note_on with velocity == 0",
+      "start": "note_on with velocity > 0"
+    },
+    "input": "existing frozen original cropped MIDI; exactly [0,20] seconds",
+    "normalization": {
+      "additional_normalization": false,
+      "concatenate_order": [
+        "pitch_class",
+        "temporal_onset",
+        "note_duration",
+        "pitch_height"
+      ],
+      "dimension": 52,
+      "each_block": "block / sum(block)",
+      "factor_per_block": 0.25,
+      "zero_sum": "STOP"
+    },
+    "numerics": {
+      "all_values_finite": true,
+      "counts": "float64",
+      "normalization": "float64",
+      "on_violation": "STOP",
+      "positive_descriptor_norm": true,
+      "stored_descriptor": "float64"
+    },
+    "pitch_class": {
+      "bin_count": 12,
+      "encoding": "MIDI_pitch % 12",
+      "order": [
+        "C",
+        "C#/Db",
+        "D",
+        "D#/Eb",
+        "E",
+        "F",
+        "F#/Gb",
+        "G",
+        "G#/Ab",
+        "A",
+        "A#/Bb",
+        "B"
+      ]
+    },
+    "pitch_height": {
+      "bin_count": 12,
+      "convention": "left-closed/right-open; final bin includes upper boundary",
+      "edges": "np.linspace(0.0, 128.0, 13)",
+      "invalid_pitch": "STOP",
+      "legal_integer_pitches": [
+        0,
+        127
+      ]
+    },
+    "sustain": {
+      "CC64": "remains in frozen MIDI but does not extend note duration",
+      "extend_duration": false
+    },
+    "temporal_onset": {
+      "bin_count": 20,
+      "convention": "left-closed/right-open except final bin includes 1.0",
+      "edges": "np.linspace(0.0, 1.0, 21)",
+      "normalization": "u = onset_seconds / 20.0",
+      "outside_0_1": "integrity failure -> STOP; tolerance-free conversion",
+      "u0_bin": 0,
+      "u1_bin": 19
+    },
+    "weighting": {
+      "applies_to_all_four_histograms": true,
+      "channel_weight": false,
+      "chord_notes": "each contributes separately",
+      "count_per_retained_positive_velocity_onset": 1,
+      "duration_weight": false,
+      "instrument_program_weight": false,
+      "velocity_weight": false
+    }
+  }
+}

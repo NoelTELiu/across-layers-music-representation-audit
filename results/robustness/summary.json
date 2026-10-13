@@ -1,0 +1,52 @@
+{
+  "classification": "POST-FREEZE / POST-HOC / EXPLORATORY",
+  "interpretation": "The pre-specified normalized primary remains authoritative and non-confirming. Post-freeze sensitivity analyses show that inferential threshold crossing depends on normalization/reference choice and finite sample composition. Normalized sensitivity should therefore be interpreted as a conditional audit metric rather than an absolute measure. These results do not replace or confirm the original primary.",
+  "leave_one_out": {
+    "estimate": {
+      "max": 0.09035176205572833,
+      "max_omitted_samples": [
+        13
+      ],
+      "median": 0.07981654959818853,
+      "min": 0.05224809667215298,
+      "min_omitted_samples": [
+        19
+      ]
+    },
+    "sign_flip_p": {
+      "max": 0.11408859114088592,
+      "max_omitted_samples": [
+        19
+      ],
+      "median": 0.0654934506549345,
+      "min": 0.029897010298970104,
+      "min_omitted_samples": [
+        13
+      ]
+    }
+  },
+  "original_primary": {
+    "bootstrap_95_ci": [
+      0.005651311249042015,
+      0.16302219828769984
+    ],
+    "conclusion": "PRIMARY NON-CONFIRMING",
+    "estimate": 0.07988889023048976,
+    "exact_saved_result_match": true,
+    "sign_flip_p": 0.05959404059594041
+  },
+  "raw_distance": {
+    "N": 30,
+    "bootstrap_95_ci": [
+      0.001508405027130144,
+      0.014406504077075775
+    ],
+    "mean": 0.00746987408086919,
+    "median": 0.006107768954526565,
+    "negative": 11,
+    "permutation_extreme_count": 253,
+    "positive": 19,
+    "sign_flip_p": 0.025397460253974602,
+    "zero": 0
+  }
+}

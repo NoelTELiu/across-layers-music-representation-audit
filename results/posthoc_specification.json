@@ -1,0 +1,160 @@
+{
+  "classification": "POST-HOC EXPLORATORY",
+  "descriptor_intercorrelation": {
+    "coefficient": "Spearman(symbolic RDM, audio RDM)",
+    "count": 1,
+    "implementation": "Pearson correlation between independently average-ranked vectors",
+    "p_value": false,
+    "purpose": "descriptive descriptor overlap only",
+    "significance_test": false
+  },
+  "interpretation": {
+    "allowed": [
+      "whether symbolic RSA persists after controlling audio similarity",
+      "whether audio RSA persists after controlling symbolic similarity",
+      "how unique/shared descriptive variance changes across depth"
+    ],
+    "classification": "POST-HOC EXPLORATORY",
+    "forbidden": [
+      "preregistered confirmation",
+      "causal separation of acoustic and symbolic information",
+      "statistically significant symbolic-versus-audio superiority",
+      "independent neural mechanisms",
+      "variance uniquely explained in a causal sense"
+    ],
+    "preferred_wording": [
+      "unique descriptive association",
+      "variance component under this rank-based linear decomposition"
+    ]
+  },
+  "partial_RSA": {
+    "FDR": false,
+    "OLS_function": "numpy.linalg.lstsq",
+    "Pearson_definition": "center each residual vector; dot(centered_x, centered_y) / (norm(centered_x) * norm(centered_y))",
+    "bootstrap_CIs": false,
+    "classification": "descriptive exploratory partial Spearman coefficients only",
+    "coefficients": {
+      "audio_partial_symbolic": {
+        "coefficient": "Pearson correlation(M_resid, A_resid)",
+        "design": [
+          "intercept",
+          "S"
+        ],
+        "first_response": "M",
+        "second_response": "A"
+      },
+      "symbolic_partial_audio": {
+        "coefficient": "Pearson correlation(M_resid, S_resid)",
+        "design": [
+          "intercept",
+          "A"
+        ],
+        "first_response": "M",
+        "second_response": "S"
+      }
+    },
+    "definitions": {
+      "A": "average-rank audio upper-triangle vector",
+      "M": "average-rank MERT upper-triangle vector at this state",
+      "S": "average-rank symbolic upper-triangle vector"
+    },
+    "dtype": "float64",
+    "intercept": true,
+    "p_values": false,
+    "permutation_inference": false,
+    "rank_residuals": false,
+    "rcond": null,
+    "residual_definition": "response - design @ fitted OLS coefficients",
+    "safeguards": [
+      "STOP if a residual vector has zero norm",
+      "STOP if any result is nonfinite"
+    ],
+    "significance_decisions": false,
+    "states": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "variance_partitioning": {
+    "OLS": {
+      "dtype": "float64",
+      "function": "numpy.linalg.lstsq",
+      "intercept": true,
+      "models": {
+        "R2_audio": "M ~ A",
+        "R2_joint": "M ~ S + A",
+        "R2_symbolic": "M ~ S"
+      },
+      "rcond": null
+    },
+    "R2": {
+      "definition": "1 - sum((response - fitted)**2) / sum((response - mean(response))**2)",
+      "kind": "ordinary in-sample R²"
+    },
+    "clip_components": false,
+    "components": {
+      "shared": "R2_symbolic + R2_audio - R2_joint",
+      "unexplained": "1 - R2_joint",
+      "unique_audio": "R2_joint - R2_symbolic",
+      "unique_symbolic": "R2_joint - R2_audio"
+    },
+    "negative_shared": "retain and report signed value, including suppression",
+    "same_rank_vectors_as_partial_RSA": true,
+    "standardization": {
+      "ddof": 0,
+      "formula": "z = (x - mean(x)) / population_std(x)",
+      "rerank": false,
+      "scope": "each rank vector independently"
+    },
+    "states": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "validation": {
+      "identities": [
+        "unique_symbolic + unique_audio + shared == R2_joint",
+        "unique_symbolic + unique_audio + shared + unexplained == 1"
+      ],
+      "modify_values_to_enforce": false,
+      "tolerance": 1e-12,
+      "tolerance_scope": "validation only; absolute error <= 1e-12"
+    }
+  },
+  "vectors": {
+    "dtype": "float64",
+    "length": 435,
+    "on_violation": "STOP",
+    "pair_order": "NumPy returned frozen row-major pair order unchanged",
+    "rank_function": "scipy.stats.rankdata",
+    "rank_method": "average",
+    "ranking": "each 435-element vector independently, exactly once; reuse ranks throughout",
+    "rerank_later": false,
+    "safeguards": [
+      "finite values",
+      "nonzero rank variance"
+    ],
+    "upper_triangle": "np.triu_indices(30, k=1)"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "classification": "POST-HOC EXPLORATORY",
+  "coefficient": 0.4362386050030834,
+  "coefficient_name": "Spearman(symbolic RDM, audio RDM)",
+  "interpretation": "descriptor overlap only; no significance inference",
+  "pair_count": 435
+}
