@@ -6,7 +6,7 @@
 
 This completed research project audits a frozen MERT model through controlled interventions and across-piece similarity. The takeaway is **layer characterization is metric-dependent**: intervention selectivity and alignment with musical descriptors need not peak at the same layer. The study does not identify a universally best layer.
 
-[Read the five-page research report](RESEARCH_REPORT.pdf) · [Repository-readable report](RESEARCH_REPORT.md) · [Reproducibility and frozen source](docs/REPRODUCIBILITY.md)
+[Read the complete research report](RESEARCH_REPORT.pdf) · [Repository-readable report](RESEARCH_REPORT.md) · [Reproducibility and frozen source](docs/REPRODUCIBILITY.md)
 
 ## Study at a glance
 
