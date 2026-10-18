@@ -1,0 +1,56 @@
+{
+  "analysis": "PRIMARY",
+  "bootstrap_percentile_95_ci": [
+    0.005651311249042015,
+    0.16302219828769984
+  ],
+  "bootstrap_resamples": 10000,
+  "configuration": {
+    "analysis": "PRIMARY",
+    "bootstrap": {
+      "confidence": 0.95,
+      "denominators": "fixed per-piece values before resampling",
+      "interval": "percentile",
+      "percentile_method": "linear",
+      "resamples": 10000,
+      "rng": "numpy.random.default_rng/PCG64",
+      "seed": 0,
+      "unit": "complete paired piece row"
+    },
+    "calculation_dtype": "float64",
+    "conditions": [
+      "original",
+      "plus2",
+      "harpsichord",
+      "tempo150",
+      "pc_permutation"
+    ],
+    "cosine": "1 - sum(a*b)/(norm(a)*norm(b)); no clipping, epsilon, or vector repair",
+    "denominator": "median of original_i versus the other 29 originals at state 12",
+    "embedding_phase": "primary",
+    "estimand": "mean(PC sensitivity - mean(plus2, harpsichord, tempo sensitivities))",
+    "multiplicity": "none; single primary test",
+    "permutation": {
+      "comparison": "abs(permuted)>=abs(observed)",
+      "independent_rng": true,
+      "p_value": "(1 + extreme_count)/(10000 + 1)",
+      "resamples": 10000,
+      "rng": "numpy.random.default_rng/PCG64",
+      "seed": 0,
+      "sidedness": "two-sided",
+      "signs": [
+        -1,
+        1
+      ],
+      "statistic": "mean"
+    },
+    "piece_count": 30,
+    "state": 12
+  },
+  "permutation_extreme_count": 595,
+  "permutation_resamples": 10000,
+  "piece_count": 30,
+  "primary_estimate": 0.07988889023048976,
+  "state": 12,
+  "two_sided_sign_flip_p": 0.05959404059594041
+}

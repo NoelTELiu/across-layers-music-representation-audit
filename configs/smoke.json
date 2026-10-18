@@ -1,0 +1,20 @@
+{
+  "archive_url": "https://storage.googleapis.com/magentadata/datasets/maestro/v3.0.0/maestro-v3.0.0-midi.zip",
+  "dataset": "MAESTRO",
+  "dataset_version": "3.0.0",
+  "max_pieces": 1,
+  "minimum_onset_bins": 10,
+  "minimum_onsets": 20,
+  "minimum_piece_duration_s": 100.0,
+  "model_id": "m-a-p/MERT-v1-95M",
+  "model_revision": "12af15fef9d0ac838c3f475bfbbf26d2060dd4f5",
+  "sample_rate": 24000,
+  "seed": 0,
+  "segment_duration_s": 20.0,
+  "soundfont": "assets/TimGM6mb.sf2",
+  "sparse_shift_s": 1.0,
+  "start_fraction": 0.2,
+  "synth_gain": 0.2,
+  "torch_threads": 2,
+  "transpose_semitones": 2
+}
